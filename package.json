@@ -6,10 +6,13 @@
   "directories": {
     "examples": "examples"
   },
-  "dependencies": {},
+  "dependencies": {
+    "events": "^1.1.0"
+  },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-browserify": "^3.2.1",
+    "grunt-contrib-watch": "^0.6.1",
     "jshint": "~2.5.11",
     "load-grunt-tasks": "^1.0.0"
   },

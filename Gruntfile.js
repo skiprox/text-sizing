@@ -14,10 +14,17 @@ module.exports = function(grunt) {
           dest: 'examples/js/main.js'
         }]
       }
+    },
+    watch: {
+      scripts: {
+        files: ['text-sizing.js', 'examples/main.js'],
+        tasks: ['browserify']
+      }
     }
   });
 
   // Default task.
   grunt.registerTask('default', ['browserify:examples']);
+  grunt.registerTask('debug', ['watch']);
 
 };
