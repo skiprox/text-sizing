@@ -69,18 +69,23 @@ proto._resizeCanvas = function() {
 	this.elems.canvasEl.height = this.props.containerHeight;
 };
 
+proto._calculateTextSize = function() {
+	this.ctx.clearRect(0, 0, this.props.containerWidth, this.props.containerHeight);
+	this.ctx.textBaseline = 'hanging';
+	this.ctx.font = this.props.fontSize + 'px ' + this.props.fontFamily;
+	this.props.textWidth = this.ctx.measureText(this.props.text).width;
+};
+
 /**
  * Resize the text to fit the containing element
  */
 proto.increaseText = function() {
-	this.ctx.clearRect(0, 0, this.props.containerWidth, this.props.containerHeight);
-	this.ctx.textBaseline = 'hanging';
-	this.ctx.font = this.props.fontSize + 'px ' + this.props.fontFamily;
-	if (this.ctx.measureText(this.props.text).width < this.props.containerWidth - 1) {
+	this._calculateTextSize();
+	if (this.props.textWidth < this.props.containerWidth - 1) {
 		this.props.fontSize += 1;
 		this.increaseText();
 	}
-	else if (this.ctx.measureText(this.props.text).width > this.props.containerWidth + 2) {
+	else if (this.props.textWidth > this.props.containerWidth + 2) {
 		this.decreaseText();
 	}
 	else {
@@ -89,10 +94,8 @@ proto.increaseText = function() {
 };
 
 proto.decreaseText = function() {
-	this.ctx.clearRect(0, 0, this.props.containerWidth, this.props.containerHeight);
-	this.ctx.textBaseline = 'hanging';
-	this.ctx.font = this.props.fontSize + 'px ' + this.props.fontFamily;
-	if (this.ctx.measureText(this.props.text).width > this.props.containerWidth - 1) {
+	this._calculateTextSize();
+	if (this.props.textWidth > this.props.containerWidth - 1) {
 		this.props.fontSize -= 1;
 		this.decreaseText();
 	}
