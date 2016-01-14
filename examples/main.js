@@ -7,9 +7,7 @@ var Main = (function() {
 
 	return {
 		init : function() {
-			// if self-initializing, 
-			// remove the following line
-			textSizing.init();
+			new textSizing('.text');
 			return this;
 		}
 	};

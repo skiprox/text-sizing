@@ -1,16 +1,20 @@
 'use strict';
 
+var EventEmitter = require('events').EventEmitter;
+var inherits = require('util').inherits;
+
 /**
  * Text Sizing
  * @param {String} textEl [The string of the text element to resize]
  * @param {[type]} opts   [Options (WIP)]
  */
-function TextSizing(textEl, opts) {
+function TextSizing(textEl) {
 	this.window = window;
-	this.elem = {};
-	this._setElements();
+	this.elems = {};
+	this._setElements(textEl);
 	this.props = {};
 	this._setProps();
+	this.resizeText();
 }
 
 // Inherit from EventEmitter for Text Sizing
@@ -21,23 +25,33 @@ var proto = TextSizing.prototype;
 
 /**
  * Set the elements
+ * @param {String} textEl [The string of the text element to resize]
  */
-this._setElements = function() {
-	this.elem.text = document.querySelector(textEl);
-	this.elem.textParent = this.elem.text.parentNode;
+proto._setElements = function(textEl) {
+	this.elems.textEl = document.querySelector(textEl);
+	this.elems.textParent = this.elems.textEl.parentNode;
 };
 
-this._setProps = function() {
-	this.props.textLineHeight = this.window.getComputedStyle(this.elem.text, null)['lineHeight'];
+proto._setProps = function() {
+	this.props.textLineHeight = this.window.getComputedStyle(this.elems.textEl, null)['lineHeight'];
 	this.props.textLineHeight = parseFloat(this.props.textLineHeight.split('px')[0], 10);
-	this.props.textParentHeight = this.elem.textParent.offsetHeight;
+	this.props.textParentHeight = this.elems.textParent.offsetHeight;
 };
 
 /**
  * Resize the text to fit the containing element
  */
 proto.resizeText = function() {
+	if (this.props.textParentHeight/this.props.textLineHeight > 1) {
+		this.shrinkText();
+	}
+	else {
+		this.growText();
+	}
+};
 
+proto.growText = function() {
+	this.elems.textEl.style.fontSize += 1;
 };
 
 module.exports = TextSizing;
