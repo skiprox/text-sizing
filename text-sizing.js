@@ -54,7 +54,6 @@ proto._setProps = function(opts) {
 };
 
 proto._onWindowResize = function(e) {
-	console.log('what the fuck');
 	this._resizeCanvas();
 	this.increaseText();
 };
@@ -80,6 +79,22 @@ proto.increaseText = function() {
 	if (this.ctx.measureText(this.props.text).width < this.props.containerWidth - 1) {
 		this.props.fontSize += 1;
 		this.increaseText();
+	}
+	else if (this.ctx.measureText(this.props.text).width > this.props.containerWidth + 2) {
+		this.decreaseText();
+	}
+	else {
+		this.ctx.fillText(this.props.text, 0, 2);
+	}
+};
+
+proto.decreaseText = function() {
+	this.ctx.clearRect(0, 0, this.props.containerWidth, this.props.containerHeight);
+	this.ctx.textBaseline = 'hanging';
+	this.ctx.font = this.props.fontSize + 'px ' + this.props.fontFamily;
+	if (this.ctx.measureText(this.props.text).width > this.props.containerWidth - 1) {
+		this.props.fontSize -= 1;
+		this.decreaseText();
 	}
 	else {
 		this.ctx.fillText(this.props.text, 0, 2);
