@@ -1089,7 +1089,16 @@ proto.resizeText = function() {
 };
 
 proto.growText = function() {
-	this.elems.textEl.style.fontSize += 1;
+
+};
+
+proto.shrinkText = function() {
+
+};
+
+proto.destroy = function() {
+	this.elems = {};
+	this.props = {};
 };
 
 module.exports = TextSizing;
