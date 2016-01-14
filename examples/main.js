@@ -7,7 +7,7 @@ var Main = (function() {
 
 	return {
 		init : function() {
-			new textSizing('.text');
+			new textSizing('.text-wrapper');
 			return this;
 		}
 	};
